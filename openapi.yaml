@@ -1,0 +1,276 @@
+openapi: 3.0.1
+info:
+  title: the weather API.
+  description: This is an example of a REST API or Web Service using Nodejs, PostgreSQL as the database, and Sequelize as the ORM. Also in this example we will use Babel and modern Javascript, pgAdmin 4, REST insomnia, among other tools.
+  version: 1.0.0
+servers:
+- url: http://localhost:5000/api/weather
+tags:
+- name: weather
+  description: This endpoint handles all the information related to the weather.
+  
+paths:
+
+  /:
+    post:
+      tags:
+      - weather
+      summary: Insert new meteorological information in the database.
+      parameters:
+  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyWeatherPost'
+        required: true
+      responses:
+        200:
+          description: Weather created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedSuccessfullyPost'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+
+  /all:
+    get:
+      tags:
+      - weather
+      summary: Returns the complete database.
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BDGet'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /meantemp/{dateday}:
+    get:
+      tags:
+      - weather
+      summary: Returns the mean temperature according to the date.
+      parameters:
+      - name: dateday
+        in: path
+        description: Requested mean temperature date
+        required: true
+        schema:
+          type: date
+          
+      responses:
+        200:
+          description: (OK) date received correctly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyWeatherGet'
+        400:
+          $ref: '#/components/responses/BadRequest'        
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  /humidity/{dateday}:
+    get:
+      tags:
+      - weather
+      summary: Returns the humidity according to the date.
+      parameters:
+      - name: dateday
+        in: path
+        description: Requested humidity date
+        required: true
+        schema:
+          type: date
+        
+      responses:
+        200:
+          description: (OK) date received correctly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyWeatherGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  /wind_speed/{dateday}:
+    get:
+      tags:
+      - weather
+      summary: Returns the wind speed according to the date.
+      parameters:
+      - name: dateday
+        in: path
+        description: Requested wind speed date
+        required: true
+        schema:
+          type: date
+        
+      responses:
+        200:
+          description: (OK) date received correctly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyWeatherGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  /meanpressure/{dateday}:
+    get:
+      tags:
+      - weather
+      summary: Returns the mean pressure according to the date.
+      parameters:
+      - name: dateday
+        in: path
+        description: Requested mean pressure date
+        required: true
+        schema:
+          type: date
+        
+      responses:
+        200:
+          description: (OK) date received correctly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyWeatherGet'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  /{dateday}:
+    get:
+      tags:
+      - weather
+      summary: Returns a weather of a date
+      parameters:
+      - name: dateday
+        in: path
+        description: Date to get weather
+        required: true
+        schema:
+          type: date
+        
+      responses:
+        200:
+          description: The weather of the date is
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyWeatherGet'
+        400:
+          $ref: '#/components/responses/BadRequest' 
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+components:
+  responses:
+    
+    NotFound:
+      description: (NotFound) No information found
+    
+    BadRequest:
+      description: (Bad Request) The data sent is incorrect or there is mandatory data not sent
+      
+    ServerError:
+      description: Server error
+        
+
+  schemas:
+
+    BodyWeatherPost:
+      type: object
+      properties:
+        dateday:
+          type: date
+          description: Date of weather
+        meantemp:
+          type: double
+          description: Mean temperature
+        humidity:
+          type: double
+          description: Humidity
+        wind_speed:
+          type: double
+          description: Wind speed
+        meanpressure:
+          type: double
+          description: Mean pressure
+  
+    CreatedSuccessfullyPost:
+      type: object
+      properties:
+        respuesta:
+          type: string
+          enum: [1]
+          description: Weather created successfully
+        data: 
+          type: object
+          enum: [233]
+          description: Weather created
+          
+          
+    BDGet:
+     type: objects
+     properties:
+        dateday:
+          type: date
+          description: Date of weather
+        meantemp:
+          type: double
+          description: Mean temperature
+        humidity:
+          type: double
+          description: Humidity
+        wind_speed:
+          type: double
+          description: Wind speed
+        meanpressure:
+          type: double
+          description: Mean pressure
+          
+    BodyWeatherGet:
+      type: object
+      properties:
+        dateday:
+          type: date
+          description: Date of weather
+        meantemp:
+          type: double
+          description: Mean temperature
+        humidity:
+          type: double
+          description: Humidity
+        wind_speed:
+          type: double
+          description: Wind speed
+        meanpressure:
+          type: double
+          description: Mean pressure      
