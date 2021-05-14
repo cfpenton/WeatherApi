@@ -6,6 +6,7 @@ Hello
 You must run the following commands:
 
 1-  npm install 
+
 2-  npm run dev
 
 must have postgres installed
